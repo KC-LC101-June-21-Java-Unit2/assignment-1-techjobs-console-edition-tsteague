@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class JobData {
 
-    private static final String DATA_FILE = "src/main/resources/job_data.csv";
+    private static final String DATA_FILE = "build/resources/main/job_data.csv";
     private static boolean isDataLoaded = false;
 
     private static ArrayList<HashMap<String, String>> allJobs;
@@ -79,7 +79,7 @@ public class JobData {
 
             String aValue = row.get(column);
 
-            if (aValue.contains(value)) {
+            if (aValue.toLowerCase().contains(value.toLowerCase())) {
                 jobs.add(row);
             }
         }
@@ -99,7 +99,20 @@ public class JobData {
         loadData();
 
         // TODO - implement this method
-        return null;
+        ArrayList<HashMap<String, String>> matchingJobs = new ArrayList<HashMap<String,String>>();
+
+        for ( HashMap<String,String> row : allJobs )
+        {
+          for ( String column : row.keySet() )
+          {
+            if ( !matchingJobs.contains(row) && row.get(column).toLowerCase().contains(value.toLowerCase()) )
+            {
+              matchingJobs.add( row );
+            }
+          }
+        }
+
+        return matchingJobs;
     }
 
     /**
@@ -113,9 +126,8 @@ public class JobData {
         }
 
         try {
-
             // Open the CSV file and set up pull out column header info and records
-            Reader in = new FileReader(DATA_FILE);
+            Reader in = new FileReader( DATA_FILE );
             CSVParser parser = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(in);
             List<CSVRecord> records = parser.getRecords();
             Integer numberOfColumns = records.get(0).size();
