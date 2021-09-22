@@ -59,7 +59,7 @@ public class TechJobs {
                 String searchField = getUserSelection("Search by:", columnChoices);
 
                 // What is their search term?
-                System.out.println("\nSearch term:");
+                System.out.println("\nSearch term:\n");
                 String searchTerm = in.nextLine();
 
                 if (searchField.equals("all")) {
@@ -142,7 +142,7 @@ public class TechJobs {
 
       if ( counter == 0 )
       {
-        System.out.println( "No Results." );
+        System.out.println( "No Results" );
       }
     }
 }
